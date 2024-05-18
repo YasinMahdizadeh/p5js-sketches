@@ -8,17 +8,18 @@ function make2DArray(cols,rows) {
      return arr
 }
 
+let grid;
+let resolution = 40;
+let cols ;
+let rows ;
+
 
 function  setup() {
 
+    createCanvas(800,800);
 
-}       
-
-let grid;
-let cols = 10;
-let rows = 10;
-
-function draw() {
+    cols = width / resolution;
+    rows = height / resolution;
 
     grid = make2DArray(cols,rows);
     for( let i = 0 ; i < cols ; i++) {
@@ -26,4 +27,23 @@ function draw() {
             grid[i][j] = floor(random(2));
         }
      }
+
+
+
+}       
+
+
+function draw() {
+
+    for( let i = 0 ; i < cols ; i++) {
+            for( let j = 0 ; j < rows ; j++) {
+                x = i * resolution;
+                y = j * resolution;
+                if(grid[i][j] == 1) {
+                    fill(0);
+                    rect(x,y,resolution,resolution);
+                }
+            }
+        }
+
 }
