@@ -1,5 +1,5 @@
 let grid;
-let resolution = 40;
+let resolution = 4;
 let cols ;
 let rows ; 
 
@@ -10,7 +10,7 @@ function make2DArray(cols,rows) {
         arr[i] = new Array(rows);
      }
 
-     return arr
+     return arr;
 }
 
 //Setup
@@ -24,9 +24,12 @@ function  setup() {
     grid = make2DArray(cols,rows);
     for( let i = 0 ; i < cols ; i++) {
         for( let j = 0 ; j < rows ; j++) {
-            grid[i][j] = floor(random(2));
+            grid[i][j] = floor(random(2)-0.4);
         }
      }
+
+     frameRate(30);
+     
 
 } 
 
@@ -45,13 +48,30 @@ function PrintGrid(g) {
 
 }
 
+function checkIndex(index) {
+    
+    let size = cols;
+    
+    if (index < 0) {
+        index += size;
+    }
+    if (index >= size) {
+        index -= size;
+    }
+    return index;
+}
+
+
 function sumOfNeighbors(grid,x,y) {
 
     let sum = 0;
 
     for( let i = -1 ; i < 2 ; i++) {
         for( let j = -1 ; j < 2 ; j++) {
-           sum += grid[x+i][y+j];
+            let index_1 = checkIndex(x+i);
+            let index_2 = checkIndex(y+j);
+
+           sum += grid[index_1][index_2];
         }
     }
 
@@ -65,6 +85,7 @@ function sumOfNeighbors(grid,x,y) {
 //Draw
 function draw() {
 
+    background(255);
     //Print Grid
     PrintGrid(grid);
 
@@ -82,16 +103,23 @@ function draw() {
             if ( state == 0 && (n == 3 || n==2)) {
                 next[i][j] = 1;
             }
-            else if ((state == 1 && n > 3) || (state == 1 && n < 1)) {
+            else if ((state == 1 && n > 3) || (state == 1 && n < 2)) {
                 next[i][j] = 0;
             }
             else {
-                next[i][j] = grid[i][j];
+                next[i][j] = state;
             }
         }
      }
 
+    //  let ne = make2DArray(cols,rows);
 
+    //  for( let i = 0 ; i < cols ; i++) {
+    //     for( let j = 0 ; j < rows ; j++) {
+    //         ne[i][j] = sumOfNeighbors(grid,i,j);
+    //     }
+    // }
+     
      grid = next;
 
 }
